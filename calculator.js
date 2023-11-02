@@ -1,6 +1,111 @@
-let firstNumber;
+let firstNumber = null;
 let operator = ['+', '-', '/', '*'];
-let secondNumber;
+let secondNumber = null;
+let currentOperation = null;
+
+let currentDisplayValue = '0';
+
+const displayValue = document.querySelector("#calculatorDisplay");
+displayValue.innerText = currentDisplayValue;
+
+function updateDisplay() {
+    displayValue.innerText = currentDisplayValue;
+}
+
+const numberButtonFunction = document.querySelectorAll(".numberButton");
+numberButtonFunction.forEach(function(button) { 
+    button.addEventListener('click', function() {
+        if (currentDisplayValue === '0') {
+            currentDisplayValue = button.textContent;
+        }
+        else {
+            currentDisplayValue += button.textContent;
+        }
+        updateDisplay();
+    })
+});
+
+const clearButtonFunction = document.querySelector("#clearButton");
+clearButtonFunction.addEventListener('click', function() {
+    currentDisplayValue = '0';
+    updateDisplay();
+});
+
+const addButtonFunction = document.querySelector("#addButton");
+addButtonFunction.addEventListener('click', function() {
+    if (currentOperation !== null) {
+        secondNumber = parseFloat(currentDisplayValue);
+
+        const result = operate(currentOperation, parseFloat(firstNumber), secondNumber);
+
+        firstNumber = result.toString();
+
+        currentDisplayValue = firstNumber;
+    }
+    else {
+        firstNumber = currentDisplayValue;
+    }
+    currentOperation = '+';
+    currentDisplayValue = '0';
+    updateDisplay();
+});
+
+const subtractButtonFunction = document.querySelector("#subtractButton");
+subtractButtonFunction.addEventListener('click', function() {
+    if (currentOperation !== null) {
+        secondNumber = parseFloat(currentDisplayValue);
+
+        const result = operate(currentOperation, parseFloat(firstNumber), parseFloat(secondNumber));
+
+        firstNumber = result.toString();
+
+        currentDisplayValue = firstNumber; 
+    }
+    else {
+        firstNumber = currentDisplayValue;
+    }
+    currentOperation = '-';
+    currentDisplayValue = '0';
+    updateDisplay();
+});
+
+const multiplyButtonFunction = document.querySelector("#multiplyButton");
+multiplyButtonFunction.addEventListener('click', function() {
+    if (currentOperation !== null) {
+        secondNumber = parseFloat(currentDisplayValue);
+
+        const result = operate(currentOperation, parseFloat(firstNumber), parseFloat(secondNumber));
+
+        firstNumber = result.toString();
+
+        currentDisplayValue = firstNumber; 
+    }
+    else {
+        firstNumber = currentDisplayValue;
+    }
+    currentOperation = '*';
+    currentDisplayValue = '0';
+    updateDisplay();
+});
+
+const divideButtonFunction = document.querySelector("#divideButton");
+divideButtonFunction.addEventListener('click', function() {
+    if (currentOperation !== null) {
+        secondNumber = parseFloat(currentDisplayValue);
+
+        const result = operate(currentOperation, parseFloat(firstNumber), parseFloat(secondNumber));
+
+        firstNumber = result.toString();
+
+        currentDisplayValue = firstNumber; 
+    }
+    else {
+        firstNumber = currentDisplayValue;
+    }
+    currentOperation = '/';
+    currentDisplayValue = '0';
+    updateDisplay();
+});
 
 function add(num1, num2) {
     return num1 + num2;
