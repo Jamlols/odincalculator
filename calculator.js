@@ -28,6 +28,8 @@ numberButtonFunction.forEach(function(button) {
 const clearButtonFunction = document.querySelector("#clearButton");
 clearButtonFunction.addEventListener('click', function() {
     currentDisplayValue = '0';
+    currentOperation = null;
+    firstNumber = null;
     updateDisplay();
 });
 
@@ -38,16 +40,13 @@ addButtonFunction.addEventListener('click', function() {
 
         const result = operate(currentOperation, parseFloat(firstNumber), secondNumber);
 
-        firstNumber = result.toString();
+        currentDisplayValue = result.toString();
 
-        currentDisplayValue = firstNumber;
+        updateDisplay();
     }
-    else {
-        firstNumber = currentDisplayValue;
-    }
+    firstNumber = currentDisplayValue;
     currentOperation = '+';
     currentDisplayValue = '0';
-    updateDisplay();
 });
 
 const subtractButtonFunction = document.querySelector("#subtractButton");
@@ -55,18 +54,15 @@ subtractButtonFunction.addEventListener('click', function() {
     if (currentOperation !== null) {
         secondNumber = parseFloat(currentDisplayValue);
 
-        const result = operate(currentOperation, parseFloat(firstNumber), parseFloat(secondNumber));
+        const result = operate(currentOperation, parseFloat(firstNumber), secondNumber);
 
-        firstNumber = result.toString();
+        currentDisplayValue = result.toString();
 
-        currentDisplayValue = firstNumber; 
+        updateDisplay();
     }
-    else {
-        firstNumber = currentDisplayValue;
-    }
+    firstNumber = currentDisplayValue;
     currentOperation = '-';
     currentDisplayValue = '0';
-    updateDisplay();
 });
 
 const multiplyButtonFunction = document.querySelector("#multiplyButton");
@@ -74,18 +70,15 @@ multiplyButtonFunction.addEventListener('click', function() {
     if (currentOperation !== null) {
         secondNumber = parseFloat(currentDisplayValue);
 
-        const result = operate(currentOperation, parseFloat(firstNumber), parseFloat(secondNumber));
+        const result = operate(currentOperation, parseFloat(firstNumber), secondNumber);
 
-        firstNumber = result.toString();
+        currentDisplayValue = result.toString();
 
-        currentDisplayValue = firstNumber; 
+        updateDisplay();
     }
-    else {
-        firstNumber = currentDisplayValue;
-    }
+    firstNumber = currentDisplayValue;
     currentOperation = '*';
     currentDisplayValue = '0';
-    updateDisplay();
 });
 
 const divideButtonFunction = document.querySelector("#divideButton");
@@ -93,18 +86,32 @@ divideButtonFunction.addEventListener('click', function() {
     if (currentOperation !== null) {
         secondNumber = parseFloat(currentDisplayValue);
 
-        const result = operate(currentOperation, parseFloat(firstNumber), parseFloat(secondNumber));
+        const result = operate(currentOperation, parseFloat(firstNumber), secondNumber);
 
-        firstNumber = result.toString();
+        currentDisplayValue = result.toString();
 
-        currentDisplayValue = firstNumber; 
+        updateDisplay();
     }
-    else {
-        firstNumber = currentDisplayValue;
-    }
+    firstNumber = currentDisplayValue;
     currentOperation = '/';
     currentDisplayValue = '0';
-    updateDisplay();
+});
+
+const operateButtonFunction = document.querySelector("#operateButton");
+operateButtonFunction.addEventListener('click', function() {
+    if (firstNumber !== null && currentOperation !== null && currentDisplayValue !== '0') {
+        secondNumber = parseFloat(currentDisplayValue);
+
+        const result = operate(currentOperation, parseFloat(firstNumber), parseFloat(secondNumber));
+
+        currentDisplayValue = result.toString();
+
+        updateDisplay();
+
+        currentOperation = null;
+
+        firstNumber = currentDisplayValue;
+    }
 });
 
 function add(num1, num2) {
@@ -125,7 +132,7 @@ function divide(num1, num2) {
 
 function operate(operator, num1, num2) {
     if (operator === '/' && num2 === 0) {
-        return 'Cannot divide by 0!';
+        alert('Cannot divide by 0!');
     }
 
     switch(operator) {
@@ -141,6 +148,4 @@ function operate(operator, num1, num2) {
             return "Enter valid operator."
     }
 }
-
-console.log(operate('/', 5, 0));
 
